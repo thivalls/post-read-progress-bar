@@ -1,26 +1,38 @@
-const post = document.querySelector('.post-wrap');
+class TWBar {
+  
+  constructor(element, barColor) {
+    this.color = barColor;
+    this.bar = this.createBarElement();
+    this.element = element;
+    this.initOnLoad();
+  }
 
-let bar = document.createElement('div');
-let oldPageHeight = undefined;
+  initOnLoad() {
+    window.addEventListener('load', () => {
+      document.body.append(this.bar);
+      document.addEventListener('scroll', this.updateBarWidth);
+    });
+  }
 
-bar.style.width = '0';
-bar.style.height = '5px';
-bar.style.backgroundColor = "#7159c1";
-bar.style.position = 'fixed';
-bar.style.zIndex = 9999;
-bar.style.top = 0;
-bar.style.left = 0;
-bar.style.transition = '0.2s';
+  createBarElement() {
+    let bar = document.createElement('div');
+    
+    bar.style.width = '0';
+    bar.style.height = '5px';
+    bar.style.backgroundColor = this.color;
+    bar.style.position = 'fixed';
+    bar.style.zIndex = 9999;
+    bar.style.top = 0;
+    bar.style.left = 0;
+    bar.style.transition = '0.2s';
 
-window.addEventListener('load', () => {
-  document.body.append(bar);
-  document.addEventListener('scroll', updateBarWidth);
-});
+    return bar;
+  }
 
-function updateBarWidth() {
-  const postHeight = post.offsetHeight - (document.body.offsetHeight - post.offsetHeight);
-  const pageHeight = window.pageYOffset;
-
-  const updatedWidth = (pageHeight * 100) / postHeight;
-  bar.style.width = updatedWidth + "%";
+  updateBarWidth = () => {
+    const postHeight = this.element.offsetHeight - (document.body.offsetHeight - this.element.offsetHeight);
+    const pageHeight = window.pageYOffset;
+    const updatedWidth = (pageHeight * 100) / postHeight;
+    this.bar.style.width = updatedWidth + "%";
+  }
 }
