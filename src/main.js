@@ -1,6 +1,7 @@
 const post = document.querySelector('.post-wrap');
 
 let bar = document.createElement('div');
+let oldPageHeight = undefined;
 
 bar.style.width = '0';
 bar.style.height = '5px';
@@ -17,7 +18,7 @@ window.addEventListener('load', () => {
 });
 
 function updateBarWidth() {
-  const postHeight = post.offsetHeight;
+  const postHeight = post.offsetHeight - (document.body.offsetHeight - post.offsetHeight);
   const pageHeight = window.pageYOffset;
 
   const updatedWidth = (pageHeight * 100) / postHeight;
